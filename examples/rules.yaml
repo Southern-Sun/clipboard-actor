@@ -1,0 +1,20 @@
+# Place this in ~/.clipboard-actor/rules.yaml
+- name: "Youtube Tracking Removal"
+  description: "Fixes share links like https://youtu.be/zev94RoroLc?si=Ys6BuMRUdDvoCtlv"
+  enabled: true
+  type: "regex"
+  pattern: "(https?://youtu.be/[\\w\\d\\-_]+)(\\?si=[\\w\\d_\\-]+)"
+  replacement: "\\1" 
+
+- name: "Basic Replace"
+  type: "replace"
+  description: "Replace all instances of 'fucking' with 'ducking'"
+  enabled: true
+  find: "fucking"
+  replace: "ducking"
+
+- name: "ANGRY CLIPBOARD"
+  description: "Make the clipboard angry"
+  type: "str_method"
+  enabled: false
+  method_name: "upper" # Can be any python str method as long as it takes only one positional argument
