@@ -18,3 +18,22 @@
   type: "str_method"
   enabled: false
   method_name: "upper" # Can be any python str method as long as it takes only one positional argument
+
+- name: "Crazy String"
+  description: "Make the clipboard crazy"
+  type: "class_method"
+  enabled: true
+  module: "src.scripts.demo"
+  class_name: "CrazyString"
+  init:
+    init_args: null
+    init_kwargs: 
+      temperature: 0.7
+  method_name: "crazify"
+
+- name: "Uno Reverse"
+  description: "Reverses the clipboard"
+  type: "function"
+  enabled: true
+  module: "src.scripts.demo"
+  function_name: "reverse_string"
