@@ -23,6 +23,7 @@ def main():
         logger.info("Program terminated by user.")
     except Exception as e:
         logger.error(f"An error occurred: {e}")
+        raise e
     finally:
         logger.info("Exiting...")
 
