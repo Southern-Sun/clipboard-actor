@@ -12,6 +12,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class Clip:
     type: str
@@ -20,10 +21,10 @@ class Clip:
     def __eq__(self, value):
         if not isinstance(value, Clip):
             return False
-        
+
         if self.type != value.type:
             return False
-        
+
         match self.type:
             case "text" | "unicode":
                 return self.value == value.value
@@ -128,7 +129,7 @@ class Clipboard:
             # This prevents edit loops
             logger.debug("Clipboard data is the same, not processing")
             return 0
-        
+
         self._callbacks.get(data.type, self._default_callback)(data, self)
 
         return 0
@@ -166,7 +167,7 @@ class Clipboard:
         if data == sender.read_clipboard():
             logger.debug("Clipboard data is the same, not writing")
             return
-        
+
         if not sender._enabled:
             logger.debug("Clipboard listener is disabled")
             return
@@ -187,7 +188,7 @@ class Clipboard:
                     raise ValueError(f"Unsupported clipboard type: {data.type}")
         finally:
             win32clipboard.CloseClipboard()
-            
+
         sender._last_clip = data
         sender.enable()
 

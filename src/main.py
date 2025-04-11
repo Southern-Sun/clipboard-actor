@@ -3,8 +3,11 @@ from replacer import Replacer
 
 import logging
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 def main():
     replacer = Replacer()
@@ -26,6 +29,7 @@ def main():
         raise e
     finally:
         logger.info("Exiting...")
+
 
 if __name__ == "__main__":
     main()

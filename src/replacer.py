@@ -11,12 +11,13 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class Rule(ABC):
     name: str
     description: str
     enabled: bool
-    
+
     @abstractmethod
     def apply(self, text: str) -> str:
         """Implemented by subclasses to perform specific replacements."""
@@ -34,7 +35,7 @@ class RegexRule(Rule):
 
     def apply(self, text: str) -> str:
         return self.compiled_pattern.sub(self.replacement, text)
-    
+
 
 @dataclass
 class ReplaceRule(Rule):
@@ -43,7 +44,7 @@ class ReplaceRule(Rule):
 
     def apply(self, text: str) -> str:
         return text.replace(self.find, self.replace)
-    
+
 
 @dataclass
 class StringMethodRule(Rule):
@@ -54,10 +55,10 @@ class StringMethodRule(Rule):
         self.method = getattr(str, self.method_name, None)
         if not self.method:
             raise ValueError(f"Invalid string method: {self.method_name}")
-        
+
     def apply(self, text):
         return self.method(text)
-    
+
 
 @dataclass
 class ClassImportRule(Rule):
@@ -80,11 +81,13 @@ class ClassImportRule(Rule):
             instance = cls(*init_args, **init_kwargs)
             self.method = getattr(instance, self.method_name, None)
         if not self.method:
-            raise ValueError(f"Invalid method: {self.method_name} in {self.class_name} of {self.module}")
+            raise ValueError(
+                f"Invalid method: {self.method_name} in {self.class_name} of {self.module}"
+            )
 
     def apply(self, text):
         return self.method(text)
-    
+
 
 @dataclass
 class FunctionImportRule(Rule):
@@ -122,7 +125,7 @@ class Replacer:
     @property
     def rules(self) -> list[Rule]:
         return self._rules
-    
+
     @rules.setter
     def rules(self, rules: list[Rule]):
         self._rules = rules
@@ -142,7 +145,7 @@ class Replacer:
             logger.debug(f"Rule details: {instance}")
 
         return compiled_rules
-    
+
     def apply_rules(self, clip: Clip) -> str:
         text = clip.value
         for rule in self.rules:
@@ -150,4 +153,3 @@ class Replacer:
                 continue
             text = rule.apply(text)
         return Clip(clip.type, text)
-
