@@ -50,7 +50,10 @@ class Replacer:
             rule_class = Replacer.RULES.get(rule_type)
             if not rule_class:
                 raise ValueError(f"Unknown rule type: {rule_type}")
-            instance = rule_class(**rule)
+            instance: Rule = rule_class(**rule)
+            if not instance.enabled:
+                logger.warning(f"Rule {instance.name} is disabled and will not be applied.")
+                continue
             compiled_rules.append(instance)
             logger.info(f"Loaded rule: {instance.name} ({rule_type})")
             logger.debug(f"Rule details: {instance}")
@@ -60,7 +63,5 @@ class Replacer:
     def apply_rules(self, clip: Clip) -> str:
         text = clip.value
         for rule in self.rules:
-            if not rule.enabled:
-                continue
             text = rule.apply(text)
         return Clip(clip.type, text)
