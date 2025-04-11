@@ -100,3 +100,12 @@ class FunctionImportRule(Rule):
 
     def apply(self, text):
         return self.function(text)
+    
+
+RULES_MAPPING = {
+    "regex": RegexRule,
+    "replace": ReplaceRule,
+    "str_method": StringMethodRule,
+    "class_method": ClassImportRule,
+    "function": FunctionImportRule,
+}

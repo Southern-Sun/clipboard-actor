@@ -2,14 +2,7 @@ import yaml
 from pathlib import Path
 from clipboard import Clip
 
-from rules import (
-    Rule,
-    RegexRule,
-    ReplaceRule,
-    StringMethodRule,
-    ClassImportRule,
-    FunctionImportRule,
-)
+from rules import Rule, RULES_MAPPING
 
 import logging
 
@@ -17,14 +10,6 @@ logger = logging.getLogger(__name__)
 
 
 class Replacer:
-    RULES = {
-        "regex": RegexRule,
-        "replace": ReplaceRule,
-        "str_method": StringMethodRule,
-        "class_method": ClassImportRule,
-        "function": FunctionImportRule,
-    }
-
     def __init__(self, rules_path: str | Path = None):
         rules_path = Path(rules_path or "~/.clipboard-actor/rules.yaml")
         rules_path = rules_path.expanduser()
@@ -47,7 +32,7 @@ class Replacer:
         compiled_rules = []
         for rule in rules:
             rule_type = rule.pop("type")
-            rule_class = Replacer.RULES.get(rule_type)
+            rule_class = RULES_MAPPING.get(rule_type)
             if not rule_class:
                 raise ValueError(f"Unknown rule type: {rule_type}")
             instance: Rule = rule_class(**rule)
