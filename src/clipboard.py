@@ -269,12 +269,11 @@ class Clipboard:
         return callback
 
 
-def edit_func(clip: Clip) -> Clip:
-    """Example edit function that converts text to uppercase"""
-    return Clip(clip.type, clip.value.upper())
-
-
 if __name__ == "__main__":
+    def edit_func(clip: Clip) -> Clip:
+        """Example edit function that converts text to uppercase"""
+        return Clip(clip.type, clip.value.upper())
+
     clipboard = Clipboard(
         callbacks={
             "unicode": Clipboard.callback_edit(edit_func),
